@@ -6,8 +6,10 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     var secondsElapsed: Int = 0
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             while (isActive) {
                 Log.d("Thread: ", Thread.currentThread().name)
                 delay(1000)
-                textSecondsElapsed.post {
+                withContext(Dispatchers.Main) {
                     textSecondsElapsed.text = "Seconds elapsed: " + secondsElapsed++
                 }
             }
